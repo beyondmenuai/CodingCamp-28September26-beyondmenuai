@@ -1,0 +1,800 @@
+/* css/style.css — Expense & Budget Visualizer styles */
+
+/* ============================================================
+   1. DESIGN TOKENS — Light Mode (default)
+   ============================================================ */
+:root {
+  /* Background layers */
+  --bg:             #f0f2f7;
+  --surface:        #ffffff;
+  --surface-raised: #f8f9fc;
+
+  /* Text */
+  --text:           #1a1d26;
+  --text-secondary: #4b5166;
+  --text-muted:     #757d99;
+
+  /* Accent / brand */
+  --accent:         #4361ee;
+  --accent-hover:   #3451d1;
+  --accent-fg:      #ffffff;
+
+  /* Semantic colors */
+  --success:        #1a9a6e;
+  --success-bg:     #e6f7f2;
+  --warning:        #b45309;
+  --warning-bg:     #fef3c7;
+  --error:          #c0392b;
+  --error-bg:       #fdecea;
+
+  /* Borders & dividers */
+  --border:         #d1d5e8;
+  --border-focus:   #4361ee;
+
+  /* Balance display */
+  --balance-text:   #ffffff;
+  --balance-bg:     #4361ee;
+
+  /* Header */
+  --header-bg:      #4361ee;
+  --header-text:    #ffffff;
+
+  /* Footer */
+  --footer-bg:      #e4e8f5;
+  --footer-text:    #757d99;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.10);
+
+  /* Radii */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+
+  /* Typography */
+  --font-sans:  'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+
+  /* Transitions */
+  --transition: 120ms ease;
+}
+
+/* ============================================================
+   2. DARK MODE OVERRIDES
+   ============================================================ */
+:root[data-theme="dark"] {
+  --bg:             #0f1117;
+  --surface:        #1a1d2e;
+  --surface-raised: #222537;
+
+  --text:           #e8eaf6;
+  --text-secondary: #a0a8c8;
+  --text-muted:     #6b74a0;
+
+  --accent:         #6c85f5;
+  --accent-hover:   #8fa0f7;
+  --accent-fg:      #0f1117;
+
+  --success:        #34d399;
+  --success-bg:     #0d2e22;
+  --warning:        #fbbf24;
+  --warning-bg:     #2d1e00;
+  --error:          #f87171;
+  --error-bg:       #2d0d0d;
+
+  --border:         #2e3354;
+  --border-focus:   #6c85f5;
+
+  --balance-text:   #e8eaf6;
+  --balance-bg:     #222537;
+
+  --header-bg:      #131625;
+  --header-text:    #e8eaf6;
+
+  --footer-bg:      #131625;
+  --footer-text:    #6b74a0;
+
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.40);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.50);
+}
+
+/* ============================================================
+   3. GLOBAL RESET & BOX MODEL
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   4. BASE TYPOGRAPHY & BODY
+   ============================================================ */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* ============================================================
+   5. HEADER
+   ============================================================ */
+header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  padding: var(--space-4) var(--space-6);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color var(--transition);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--header-text);
+}
+
+/* ============================================================
+   6. BALANCE DISPLAY
+   ============================================================ */
+.balance-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.balance-label {
+  font-size: 0.70rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.80;
+  color: var(--header-text);
+}
+
+.balance-amount {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--header-text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* ============================================================
+   7. MAIN LAYOUT
+   ============================================================ */
+main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ============================================================
+   8. PANELS
+   ============================================================ */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* ============================================================
+   9. CARD COMPONENT
+   ============================================================ */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.card h2 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   10. FORM ELEMENTS
+   ============================================================ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.form-group:last-of-type {
+  margin-bottom: var(--space-5);
+}
+
+label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--text);
+  background-color: var(--surface-raised);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.18);
+  background-color: var(--surface);
+}
+
+:root[data-theme="dark"] input[type="text"]:focus,
+:root[data-theme="dark"] input[type="number"]:focus,
+:root[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(108, 133, 245, 0.22);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Custom select arrow */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23757d99' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+/* Remove number spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ============================================================
+   11. BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2) var(--space-5);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition);
+  width: 100%;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-primary:active {
+  opacity: 0.88;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-raised);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-secondary:active {
+  opacity: 0.88;
+}
+
+/* ============================================================
+   12. THEME TOGGLE
+   ============================================================ */
+.theme-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+  white-space: nowrap;
+}
+
+#theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background-color: var(--surface-raised);
+}
+
+#theme-toggle:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   13. TRANSACTION LIST
+   ============================================================ */
+#transaction-list {
+  list-style: none;
+  overflow-y: auto;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-right: var(--space-1);
+  /* scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#transaction-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 99px;
+}
+
+/* Transaction item */
+#transaction-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+#transaction-list li:hover {
+  border-color: var(--accent);
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.transaction-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.transaction-category {
+  display: inline-block;
+  background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  border-radius: 99px;
+  padding: 1px var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.transaction-amount {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Delete button */
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color var(--transition), background-color var(--transition);
+}
+
+.delete-btn:hover {
+  color: var(--error);
+  background-color: var(--error-bg);
+}
+
+.delete-btn:focus-visible {
+  outline: 2px solid var(--error);
+  outline-offset: 2px;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* ============================================================
+   14. CHART AREA
+   ============================================================ */
+.chart-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-placeholder {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+#spending-chart {
+  max-width: 100%;
+  height: auto !important;
+}
+
+/* ============================================================
+   15. VALIDATION — Field Errors
+   ============================================================ */
+.field-error {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--error);
+  margin-top: var(--space-1);
+  line-height: 1.4;
+}
+
+/* Highlight the input when it has an associated error */
+input[aria-describedby],
+select[aria-describedby] {
+  border-color: var(--error);
+}
+
+input[aria-describedby]:focus,
+select[aria-describedby]:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
+}
+
+/* ============================================================
+   16. NOTIFICATION BANNERS
+   ============================================================ */
+
+/* Shared banner base */
+.warning-banner,
+.error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: var(--space-4) auto;
+  max-width: 1200px;
+  width: calc(100% - var(--space-8));
+  animation: slide-in 200ms ease;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.warning-banner {
+  background-color: var(--warning-bg);
+  border: 1px solid var(--warning);
+  color: var(--warning);
+}
+
+.error-banner {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.warning-banner::before {
+  content: "⚠️";
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.error-banner::before {
+  content: "🚫";
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   17. FOOTER
+   ============================================================ */
+footer {
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--border);
+  padding: var(--space-4) var(--space-6);
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--footer-text);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+/* ============================================================
+   18. RESPONSIVE — Mobile (320px – 480px)
+   Default mobile-first styles; this block handles explicit
+   overrides needed only at the small-screen range.
+   ============================================================ */
+@media (max-width: 480px) {
+  /* Stack header content vertically on very small screens */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .balance-container {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  /* Full-width controls on mobile */
+  .btn,
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+  }
+
+  /* Prevent horizontal overflow */
+  main {
+    padding: var(--space-4) var(--space-3);
+    overflow-x: hidden;
+  }
+
+  /* Transaction list — independent scroll, mobile height */
+  #transaction-list {
+    max-height: 360px;
+  }
+}
+
+/* ============================================================
+   19. RESPONSIVE — Tablet (481px – 767px)
+   Two-column side-by-side layout.
+   ============================================================ */
+@media (min-width: 481px) {
+  main {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: var(--space-5) var(--space-4);
+    gap: var(--space-5);
+  }
+
+  /* Left panel: fixed width, doesn't grow */
+  .panel-left {
+    flex: 0 0 300px;
+    width: 300px;
+    max-width: 300px;
+    min-width: 0;
+  }
+
+  /* Right panel: takes all remaining space */
+  .panel-right {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Transaction list — independent scroll, tablet height */
+  #transaction-list {
+    max-height: 420px;
+  }
+
+  /* Header stays horizontal on tablet+ */
+  .header-inner {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   20. RESPONSIVE — Desktop (768px+)
+   Expanded multi-column layout with more spacing.
+   ============================================================ */
+@media (min-width: 768px) {
+  main {
+    padding: var(--space-8) var(--space-6);
+    gap: var(--space-6);
+  }
+
+  /* Wider left panel on desktop */
+  .panel-left {
+    flex: 0 0 340px;
+    width: 340px;
+    max-width: 340px;
+  }
+
+  header h1 {
+    font-size: 1.375rem;
+  }
+
+  .balance-amount {
+    font-size: 1.875rem;
+  }
+
+  /* Transaction list — taller on desktop */
+  #transaction-list {
+    max-height: 520px;
+  }
+
+  /* More breathing room in cards on desktop */
+  .card {
+    padding: var(--space-6);
+  }
+}
+
+/* ============================================================
+   21. UTILITIES & ACCESSIBILITY
+   ============================================================ */
+
+/* Visually hidden (screen-reader only) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

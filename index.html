@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Header: Total Balance -->
+  <header>
+    <div class="header-inner">
+      <h1>Expense &amp; Budget Visualizer</h1>
+      <div class="balance-container">
+        <span class="balance-label">Total Balance</span>
+        <span id="total-balance" class="balance-amount">0.00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main: Left panel + Right panel -->
+  <main>
+
+    <!-- Left Panel: Input form, custom category, sort control, theme toggle -->
+    <section class="panel panel-left" aria-label="Controls">
+
+      <!-- Theme Toggle -->
+      <div class="theme-toggle-container">
+        <button id="theme-toggle" type="button" aria-pressed="false">
+          ☀️ Light Mode
+        </button>
+      </div>
+
+      <!-- Add Transaction Form -->
+      <div class="card">
+        <h2>Add Transaction</h2>
+        <form id="expense-form" novalidate>
+
+          <div class="form-group">
+            <label for="item-name">Item Name</label>
+            <input
+              type="text"
+              id="item-name"
+              name="itemName"
+              maxlength="100"
+              placeholder="e.g. Coffee"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              min="0.01"
+              max="999999999.99"
+              step="0.01"
+              placeholder="e.g. 4.99"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category-select">Category</label>
+            <select id="category-select" name="category" required>
+              <option value="">Select a category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Add Transaction</button>
+
+        </form>
+      </div>
+
+      <!-- Custom Category -->
+      <div class="card">
+        <h2>Add Custom Category</h2>
+        <div class="form-group">
+          <label for="custom-category-input">Category Name</label>
+          <input
+            type="text"
+            id="custom-category-input"
+            name="customCategory"
+            maxlength="50"
+            placeholder="e.g. Health"
+            autocomplete="off"
+          />
+        </div>
+        <button id="add-category-btn" type="button" class="btn btn-secondary">
+          Save Category
+        </button>
+      </div>
+
+      <!-- Sort Control -->
+      <div class="card">
+        <h2>Sort Transactions</h2>
+        <div class="form-group">
+          <label for="sort-select">Sort by</label>
+          <select id="sort-select" name="sortOrder">
+            <option value="amount-asc">Amount Ascending</option>
+            <option value="amount-desc">Amount Descending</option>
+            <option value="category-asc">Category Alphabetical</option>
+          </select>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Right Panel: Transaction list + Pie chart -->
+    <section class="panel panel-right" aria-label="Transactions and chart">
+
+      <!-- Transaction List -->
+      <div class="card">
+        <h2>Transactions</h2>
+        <ul id="transaction-list" role="list" aria-label="Transaction list">
+          <!-- Transactions rendered here by JS -->
+        </ul>
+      </div>
+
+      <!-- Spending Pie Chart -->
+      <div class="card chart-card">
+        <h2>Spending by Category</h2>
+        <div id="chart-placeholder" class="chart-placeholder" aria-live="polite">
+          No spending data is available.
+        </div>
+        <canvas
+          id="spending-chart"
+          role="img"
+          aria-label="Pie chart of spending by category"
+          style="display: none;"
+        ></canvas>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>All data is stored locally in your browser. No data is sent to any server.</p>
+  </footer>
+
+  <!-- Chart.js CDN — onerror sets chartUnavailable flag and shows persistent error banner -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"
+    onerror="window.__chartLoadError = true; if (window.__rendererShowError) { window.__rendererShowError('A required resource (Chart.js) could not be loaded. Please check your internet connection and reload the page.'); }"
+  ></script>
+
+  <script src="js/app.js"></script>
+
+</body>
+</html>
